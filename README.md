@@ -1,4 +1,4 @@
-# pytest-test-examples# pytest-test-examples
+# pytest-test-examples
 
 This repository contains examples of tests written using pytest for a simple ETL (Extract, Transform, Load) process. The ETL process extracts user data from a remote source, transforms the data by changing usernames and emails to lowercase and filtering out specific fields, and then loads the data into a local CSV file.
 
