@@ -17,7 +17,8 @@ Ensure you have the required packages installed by running:
 pip install -r requirements.txt
 ```
 
-After installing pytest, you can run the tests with the following command:
+Go to `etl.py` and execute it.
+after that you can run the tests with the following command:
 
 ```bash
 pytest
