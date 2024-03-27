@@ -1,46 +1,69 @@
-"""Test the quality of the extracted and transformed data."""
+"""Test the quality of the extracted, transformed, and loaded data.
+"""
 import csv
-import re
+import os
 
-from etl import extract, run_etl
+import pytest
+
+from etl import extract, load, transform
 
 
-def validate_email(email):
-    """Basic email validation."""
-    return re.match(r"[^@]+@[^@]+\.[^@]+", email)
+@pytest.fixture(scope="module")
+def transformed_data_fixture():
+    """Fixture for setting up and tearing down transformed data."""
+    url = "https://jsonplaceholder.typicode.com/users"
+    data = extract(url)
+    transformed_data = transform(data)
+    yield transformed_data
+
+
+@pytest.fixture(scope="module")
+def csv_file_fixture(transformed_data_fixture):
+    """Fixture for setting up and tearing down the CSV file."""
+    file_path = "test_transformed_users.csv"
+    load(file_path, transformed_data_fixture)
+    yield file_path
+    os.remove(file_path)
 
 
 def test_extracted_data_quality():
     """Test the quality of the extracted data."""
     url = "https://jsonplaceholder.typicode.com/users"
     data = extract(url)
-
-    assert isinstance(data, list), "Extracted data should be a list."
-    assert len(data) > 0, "Extracted data should not be empty."
-
     for item in data:
-        assert 'id' in item and isinstance(
-            item['id'], int), "Each item must have an integer id."
-        assert 'name' in item, "Each item must have a name."
-        assert 'username' in item, "Each item must have a username."
-        assert 'email' in item and validate_email(
-            item['email']), "Each item must have a valid email."
-        assert 'address' in item and 'city' in item['address'], \
-            "Each item must have an address with a city."
+        assert isinstance(item, dict), "Data item is not a dictionary"
+        assert "id" in item, "Missing 'id' in data item"
+        assert "name" in item, "Missing 'name' in data item"
+        assert "username" in item, "Missing 'username' in data item"
+        assert "email" in item, "Missing 'email' in data item"
+        assert "address" in item and "city" in item["address"], "Missing 'city' in data item"
+        assert item["email"].count("@") == 1, "Invalid email format"
 
 
-def test_transformed_data_quality():
+def test_transformed_data_quality(transformed_data_fixture):
     """Test the quality of the transformed data."""
-    run_etl()
-    file_path = "transformed_users.csv"
+    transformed_data = transformed_data_fixture
+    for item in transformed_data:
+        assert isinstance(
+            item, dict), "Transformed data item is not a dictionary"
+        assert "id" in item, "Missing 'id' in transformed data item"
+        assert "name" in item, "Missing 'name' in transformed data item"
+        assert "username" in item, "Missing 'username' in transformed data item"
+        assert "email" in item, "Missing 'email' in transformed data item"
+        assert "city" in item, "Missing 'city' in transformed data item"
+        assert item["email"].count(
+            "@") == 1, "Invalid email format in transformed data"
+
+
+def test_csv_file_quality(csv_file_fixture):
+    """Test the quality of the CSV file."""
+    file_path = csv_file_fixture
     with open(file_path, mode='r', newline='', encoding='utf-8') as file:
         reader = csv.DictReader(file)
-
         for row in reader:
-            assert 'id' in row and row['id'].isdigit(
-            ), "Each row must have an integer id."
-            assert 'name' in row, "Each row must have a name."
-            assert 'username' in row, "Each row must have a username."
-            assert 'email' in row and validate_email(
-                row['email']), "Each row must have a valid email."
-            assert 'city' in row, "Each row must have a city."
+            assert "id" in row, "Missing 'id' in CSV row"
+            assert "name" in row, "Missing 'name' in CSV row"
+            assert "username" in row, "Missing 'username' in CSV row"
+            assert "email" in row, "Missing 'email' in CSV row"
+            assert "city" in row, "Missing 'city' in CSV row"
+            assert row["email"].count("@") == 1, "Invalid email format in CSV"

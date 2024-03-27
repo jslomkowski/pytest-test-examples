@@ -40,7 +40,7 @@ def load(file_path, data):
 if __name__ == "__main__":
     url = "https://jsonplaceholder.typicode.com/users"
     file_path = "transformed_users.csv"
+
     data = extract(url)
     transformed_data = transform(data)
     load(file_path, transformed_data)
-    print("ETL process completed successfully. Data saved to:", file_path)

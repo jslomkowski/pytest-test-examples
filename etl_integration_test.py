@@ -2,7 +2,7 @@
 import csv
 import os
 
-from etl import run_etl
+from etl import extract, load, transform
 
 
 def test_etl_integration():
@@ -16,7 +16,11 @@ def test_etl_integration():
 
     # Run the ETL process
     try:
-        run_etl()
+        url = "https://jsonplaceholder.typicode.com/users"
+        file_path = "transformed_users.csv"
+        data = extract(url)
+        transformed_data = transform(data)
+        load(file_path, transformed_data)
         assert os.path.exists(
             file_path), "ETL process did not create the output file."
 
