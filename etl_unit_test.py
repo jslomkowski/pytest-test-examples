@@ -35,11 +35,11 @@ def test_transform():
 
 def test_load():
     """Test that load function runs without errors given valid data and path."""
-    test_data = transform(TEST_DATA)  # Use transformed data for testing load
+    test_data = transform(TEST_DATA)
     file_path = "test_output.csv"
     try:
         load(file_path, test_data)
         assert os.path.exists(file_path), "Load function should create a file"
     finally:
         if os.path.exists(file_path):
-            os.remove(file_path)  # Clean up the file after test
+            os.remove(file_path)
