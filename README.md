@@ -11,6 +11,8 @@ Another example is in `simple_script.py` and `simple_script_test.py` this is lit
 - `etl_unit_test.py`: Unit tests for the individual parts of the ETL process.
 - `etl_integration_test.py`: An integration test for function pairs.
 - `etl_end_to_end_test.py`: An full end-to-end test for whole pipeline.
+- `simple_script.py`: Simple function to be tested
+- `simple_script_test.py`: Simple test for simple script
 
 ## Running Tests
 
@@ -31,7 +33,7 @@ pytest
 
 ### Unit Tests
 
-- Definition: Tests that focus on individual components of the code or model in isolation to ensure each part functions correctly by itself.
+- Definition: Tests that focus on individual components of the code (eg. functions) in isolation to ensure each part functions correctly by itself. Often done on sample data.
 
 - Example in Machine Learning: Testing a function that preprocesses data, such as scaling or encoding, to verify it outputs data in the expected format without integrating with model training.
 
@@ -42,10 +44,10 @@ pytest
 
 - Example in Machine Learning: Verifying that the data preprocessing pipeline correctly feeds into the model training process, and that the trained model can receive and predict new data accurately.
 
-- Example in Data Engineering: Ensuring that data flows seamlessly through a pipeline from extraction, through transformation stages, and loads accurately into a target database.
+- Example in Data Engineering: Ensuring that data flows seamlessly through a pipeline from extraction, to transformation stages, and transformation stages to loading accurately into a target database.
 
 ### End-to-End Tests
-- Definition: Comprehensive tests that simulate a real-world scenario from start to finish to ensure the system behaves as intended when all components are integrated.
+- Definition: Comprehensive tests that simulate a real-world scenario from start to finish to ensure the system behaves as intended when all components are integrated. Done on production or quasi production data.
 
 - Example in Machine Learning: Running a complete pipeline from data ingestion, preprocessing, model training, and prediction to verify the entire workflow produces the correct outputs.
 
