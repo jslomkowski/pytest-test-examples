@@ -1,6 +1,8 @@
 # pytest-test-examples
 
-This repository contains examples of tests written using pytest for a simple ETL (Extract, Transform, Load) process. The ETL process extracts user dummy data from a remote source, transforms the data by changing usernames and emails to lowercase and filtering out specific fields, and then loads the data into a local CSV file. Based on that process 4 types of tests are available: unit, integration, end-to-end and data quality. Those are ment to be minimalistic so no fixtures or mockups were applied
+This repository contains examples of tests written using pytest for a simple ETL (Extract, Transform, Load) process. The `etl.py` extracts user dummy data from a remote source, transforms the data by changing usernames and emails to lowercase and filtering out specific fields, and then loads the data into a local CSV file. Based on that process 4 types of tests are available: unit, integration, end-to-end and data quality. Those are ment to be minimalistic tutorial so no fixtures or mockups were applied.
+
+Another example is in `simple_script.py` and `simple_script_test.py` this is literaly the easiest way to introduce testing. `simple_script_test.py` will simply test `simple_script.py` after running `pytest simple_script_test.py` command.
 
 ## Files
 
@@ -18,7 +20,7 @@ Ensure you have the required packages installed by running:
 pip install -r requirements.txt
 ```
 
-Go to `etl.py` and execute it.
+Go to `etl.py` and execute it to see what the script is doing.
 after that you can run the tests with the following command:
 
 ```bash
